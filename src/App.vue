@@ -1,6 +1,9 @@
 <template>
   <div>
-    <JobList :jobs="jobs"></JobList>
+    <button @click="handleClick('title')">Orde by title</button>
+    <button @click="handleClick('salary')">Order by salary</button>
+    <button @click="handleClick('location')">Order by location</button>
+    <JobList :jobs="jobs" :order="order"></JobList>
   </div>
 </template>
 
@@ -8,6 +11,7 @@
 import { defineComponent, ref } from "vue";
 import JobList from './components/JobList.vue';
 import Job from "./types/Job";
+import OrderTerm from '@/types/OrderTerm';
 export default defineComponent({
   name: "App",
   components: { JobList},
@@ -32,18 +36,34 @@ export default defineComponent({
         id: 1,
       },
     ]);
-    return { jobs }
+
+    const order = ref<OrderTerm>('title');
+
+    const handleClick = (term: OrderTerm) => {
+      order.value = term;
+    };
+
+    return { jobs, handleClick, order }
   },
 });
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+header {
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+}
+
+header .order {
+  margin-top: 20px;
+}
+
+button {
+  margin: 0 10px;
+  color: #1195c9;
+  background: #d5f0ff;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
 }
 </style>
